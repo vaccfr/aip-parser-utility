@@ -1,0 +1,3 @@
+[submodule "aixmParser"]
+	path = aixmParser
+	url = https://github.com/igclib/aixmParser
