@@ -3,10 +3,10 @@ import math
 from shapely.geometry import Polygon, Point
 
 
-with open("airspaces-all-2013.geojson") as f:
+with open("data/airspaces-all.geojson") as f:
     gj = geojson.load(f)
 
-parse_tmas_for = ["LFKB"]
+parse_tmas_for = ["LFKB", "LFLL", "LFLB"]
 output = []
 output_text = []
 
@@ -96,16 +96,23 @@ for airport in parse_tmas_for:
 
             # Calculating text value
             vertical_limit = ''
-            if j['properties']['lowerUnit'] == 'FT':
-                vertical_limit += str(int(int(j['properties']['lowerValue'])/100)).rjust(3, '0')
-            if j['properties']['lowerUnit'] == 'FL':
-                vertical_limit += 'FL'+str(j['properties']['lowerValue'])
+            if "FT" in j['properties']['lower']:
+                vertical_limit += str(int(int(j['properties']['lower'].replace("FT", "").replace("AMSL", "").replace("AGL", ""))/100)).rjust(3, '0')
+            else:
+                vertical_limit += str(j['properties']['lower'])
+            #if j['properties']['lowerUnit'] == 'FT':
+            #    vertical_limit += str(int(int(j['properties']['lowerValue'])/100)).rjust(3, '0')
+            #if j['properties']['lowerUnit'] == 'FL':
+            #    vertical_limit += 'FL'+str(j['properties']['lowerValue'])
+            
 
             vertical_limit += '/'
-            if j['properties']['upperUnit'] == 'FT':
-                vertical_limit += str(int(int(j['properties']['upperValue'])/100)).rjust(3, '0')
-            if j['properties']['upperUnit'] == 'FL':
-                vertical_limit += 'FL'+str(j['properties']['upperValue'])
+           # if j['properties']['upperUnit'] == 'FT':
+            #    vertical_limit += str(int(int(j['properties']['upperValue'])/100)).rjust(3, '0')
+            #if j['properties']['upperUnit'] == 'FL':
+            #    vertical_limit += 'FL'+str(j['properties']['upperValue'])
+
+            vertical_limit += str(j['properties']['upper'])
             
 
 
