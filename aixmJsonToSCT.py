@@ -100,21 +100,12 @@ for airport in parse_tmas_for:
                 vertical_limit += str(int(int(j['properties']['lower'].replace("FT", "").replace("AMSL", "").replace("AGL", ""))/100)).rjust(3, '0')
             else:
                 vertical_limit += str(j['properties']['lower'])
-            #if j['properties']['lowerUnit'] == 'FT':
-            #    vertical_limit += str(int(int(j['properties']['lowerValue'])/100)).rjust(3, '0')
-            #if j['properties']['lowerUnit'] == 'FL':
-            #    vertical_limit += 'FL'+str(j['properties']['lowerValue'])
             
-
             vertical_limit += '/'
-           # if j['properties']['upperUnit'] == 'FT':
-            #    vertical_limit += str(int(int(j['properties']['upperValue'])/100)).rjust(3, '0')
-            #if j['properties']['upperUnit'] == 'FL':
-            #    vertical_limit += 'FL'+str(j['properties']['upperValue'])
-
-            vertical_limit += str(j['properties']['upper'])
-            
-
+            if "FT" in j['properties']['upper']:
+                vertical_limit += str(int(int(j['properties']['upper'].replace("FT", "").replace("AMSL", "").replace("AGL", ""))/100)).rjust(3, '0')
+            else:
+                vertical_limit += str(j['properties']['upper'])
 
             text = '"'+ j['properties']['class'] + ' ' + vertical_limit +'" '+deg_to_dms(center.x)+' '+deg_to_dms(center.y, 'lon')
             output_text.append(text.replace(' AMSL', ''))
